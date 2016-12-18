@@ -12,11 +12,13 @@ $options = include(__DIR__ . '/config.php');
 $app = new Application($options);
 
 $app->server->setMessageHandler(function($msg) {
-    if (strstr($msg, '天气')) {
+    $msg = json_decode($msg, true);
+    $content = $msg['Content'];
+    if (strstr($content, '天气')) {
         // 如果用户查询天气时指定了具体的地区，则查询用户给定地区的天气
         // 否则查询该用户个人信息中填写的地区的天气（或者在没有查询到用户指定地区的天气时）
         // return "亲，过几天（或者几十天）就可以查询天气了哦~";
-        $city = trim(str_replace('天气', '', $msg));
+        $city = trim(str_replace('天气', '', $content));
         $w = new Weather($city);
         $weather = $w->getCityWeather();
         if (empty($weather) /*|| !strstr($weather, $city)*/) {
