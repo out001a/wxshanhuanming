@@ -24,8 +24,7 @@ $app->server->setMessageHandler(function($msg) {
         if (empty($weather) /*|| !strstr($weather, $city)*/) {
             return "sorry, 没有\"{$city}\"这个地区的天气信息~~";
         } else {
-            $a = explode(' ', $weather, 3);
-            return $a[0] . ' ' . $a[1] . "\n\n" . str_replace(";", "\n\n", $a[2]);
+            return $weather;
         }
     } else {
         return "急事请联系新浪微博 @面条布丁，或者QQ 545827465，不急的话就耐心等等吧，会回复的。。。\n\n"
