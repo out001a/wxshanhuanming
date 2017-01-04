@@ -13,6 +13,22 @@ $app = new Application($options);
 
 $app->server->setMessageHandler(function($msg) {
     $msg = json_decode($msg, true);
+
+    /// 事件
+
+    if ($msg['MsgType'] == 'event' && $msg['Event'] == 'CLICK') {
+        switch ($msg['EventKey']) {
+            case 'MENU_HELP':
+                return "发\"xx天气\"，即可立即收到xx地区的天气预报";
+            case 'MENU_ME':
+                return "新浪微博 @面条布丁\nQQ 545827465";
+            default:
+                return;
+        }
+    }
+
+    /// 消息
+
     $content = $msg['Content'];
     if (strstr($content, '天气')) {
         // 如果用户查询天气时指定了具体的地区，则查询用户给定地区的天气
